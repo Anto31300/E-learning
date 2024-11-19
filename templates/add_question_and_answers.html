@@ -1,0 +1,116 @@
+{% include 'staff_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Question and Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        select, input[type="text"], textarea, input[type="radio"], button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        select:focus, input[type="text"]:focus, textarea:focus, input[type="radio"]:focus, button:focus {
+            outline: none;
+            border-color: #06BBCC;
+        }
+        button {
+            background-color: #06BBCC;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0099a6;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group select, .form-group textarea {
+            width: calc(100% - 24px);
+            padding-left: 10px;
+        }
+        .answer-group {
+            margin-bottom: 15px;
+        }
+        .answer-group input[type="radio"] {
+            width: auto;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Question and Answers</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Dropdown for selecting a course -->
+            <label for="course">Course:</label>
+            <select name="course" id="course" required>
+                <option value="">Select a course</option>
+                {% for course in courses %}
+                    <option value="{{ course.id }}">{{ course.name }}</option>
+                {% endfor %}
+            </select><br><br>
+            
+            <!-- Dropdown for selecting a subject -->
+            <label for="subject">Subject:</label>
+            <select name="subject" id="subject" required>
+                <option value="">Select a subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.name }} ({{ subject.course.name }})</option>
+                {% endfor %}
+            </select><br><br>
+            
+            <!-- Input for question text -->
+            <label for="question_text">Question:</label>
+            <textarea name="question_text" id="question_text" rows="3" required></textarea><br><br>
+            
+            <!-- Input fields for answers -->
+            <label>Answers:</label><br>
+            {% for i in "0123" %}
+                <div class="answer-group">
+                    <input type="text" name="answers" placeholder="Enter answer {{ forloop.counter }}" required><br>
+                    <input type="radio" name="correct_answer" value="{{ forloop.counter0 }}" required> Correct<br>
+                </div>
+            {% endfor %}
+            
+            <button type="submit">Add Question and Answers</button>
+        </form>        
+    </div>
+</body>
+</html>
+

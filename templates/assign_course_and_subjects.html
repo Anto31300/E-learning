@@ -1,0 +1,97 @@
+{% include 'admin_header.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign Course and Subjects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        label {
+            font-weight: bold;
+        }
+        form {
+            margin-top: 20px;
+            max-width: 500px;
+        }
+        select, input[type="checkbox"], button {
+            margin-top: 5px;
+            margin-bottom: 15px;
+            padding: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #06BBCC;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #06BBCC;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Assign Course and Subjects</h1>
+        
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Dropdown for selecting a staff member -->
+            <label for="staff">Staff Member:</label>
+            <select name="staff" id="staff" required>
+                <option value="">Select a staff member</option>
+                {% for staff in staffs %}
+                    <option value="{{ staff.id }}">{{ staff.user.username }} - {{ staff }}</option>
+                {% endfor %}
+            </select><br><br>
+            
+            <!-- Dropdown for selecting a course -->
+            <label for="course">Course:</label>
+            <select name="course" id="course" required>
+                <option value="">Select a course</option>
+                {% for course in courses %}
+                    <option value="{{ course.id }}">{{ course.name }}</option>
+                {% endfor %}
+            </select><br><br>
+            
+            <!-- Dropdown for selecting multiple subjects -->
+            <label for="subject">Subject:</label>
+            <select name="subject" id="subject" required>
+                <option value="">Select a subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.name }}</option>
+                {% endfor %}
+            </select><br><br>
+            
+            
+            <button type="submit">Assign</button>
+        </form>
+    </div>
+</body>
+</html>
+

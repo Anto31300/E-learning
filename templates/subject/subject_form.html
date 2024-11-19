@@ -1,0 +1,24 @@
+
+{% include 'subject/subject_header.html' %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create / Update Subject</title>
+</head>
+<body>
+    <h1>{{ subject.id|default:"Create Subject" }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Subject Name" value="{{ subject.name|default:'' }}" required><br>
+        <input type="text" name="code" placeholder="Subject Code" value="{{ subject.code|default:'' }}" required><br>
+        <select name="course" required>
+            <option value="">Select Course</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}" {% if subject.course.id == course.id %}selected{% endif %}>{{ course.name }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="submit" value="Save">
+    </form>
+    <a href="{% url 'subject_list' %}">Cancel</a>
+</body>
+</html>

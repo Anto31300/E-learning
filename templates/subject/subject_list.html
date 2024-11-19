@@ -1,0 +1,81 @@
+{% include 'subject/subject_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subject List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        a {
+            color: #06BBCC;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        form {
+            display: inline;
+            margin: 0;
+        }
+        input[type="submit"] {
+            padding: 5px 10px;
+            color: white;
+            background-color: #f44336;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        input[type="submit"]:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Subjects</h1>
+        <a href="{% url 'subject_create' %}">Create Subject</a>
+        <ul>
+            {% for subject in subjects %}
+                <li>
+                    <span>{{ subject.name }} - {{ subject.code }} ({{ subject.course.name }})</span>
+                    <div class="actions">
+                        <a href="{% url 'subject_update' subject.pk %}">Edit</a>
+                        <form action="{% url 'subject_delete' subject.pk %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Delete">
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+

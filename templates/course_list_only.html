@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #06BBCC;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .button:hover {
+            background-color: #019b99;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Courses</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Course Code</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+                    <tr>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.code }}</td>
+                        <td>{{ course.description }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">No courses available.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Optional: Add a button to navigate to course creation if needed -->
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% include 'student_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin: 10px;
+            text-decoration: none;
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Dashboard</h1>
+
+    <!-- Course Selection -->
+    <form method="get" action="{% url 'student_dashboard' %}">
+        <label for="course">Select Course:</label>
+        <select name="course" id="course" onchange="this.form.submit()">
+            <option value="">Choose a course</option>
+            {% for course in courses %}
+                <option value="{{ course.id }}" {% if course.id|stringformat:"s" == selected_course %}selected{% endif %}>{{ course.name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <!-- Subject Selection -->
+    {% if subjects %}
+        <form method="get" action="{% url 'student_dashboard' %}">
+            <input type="hidden" name="course" value="{{ selected_course }}">
+            <label for="subject">Select Subject:</label>
+            <select name="subject" id="subject" onchange="this.form.submit()">
+                <option value="">Choose a subject</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}" {% if subject.id|stringformat:"s" == selected_subject %}selected{% endif %}>{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    {% endif %}
+
+    <!-- Questions and Answer Options -->
+    {% if questions %}
+        <form method="post" action="{% url 'submit_exam' %}">
+            {% csrf_token %}
+            {% for question in questions %}
+                <div>
+                    <p>{{ question.text }}</p>
+                    {% for answer in question.answers.all %}
+                        <label>
+                            <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">
+                            {{ answer.text }}
+                        </label><br>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit">Submit Exam</button>
+        </form>
+    {% endif %}
+</body>
+</html>

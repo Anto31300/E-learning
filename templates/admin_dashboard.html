@@ -1,0 +1,98 @@
+
+{% include 'admin_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+       
+        .container {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ request.user.username }}</h2>
+
+        <h3>Pending Staff Approvals</h3>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+            {% for staff in pending_staff %}
+            <tr>
+                <td>{{ staff.user.username }}</td>
+                <td>{{ staff.user.email }}</td>
+                <td>
+                    <form action="{% url 'approve_user' staff.id 'staff' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Approve Staff {{ staff.user.username }}</button>
+                    </form>
+                    <form action="{% url 'reject_user' staff.id 'staff' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Reject Staff {{ staff.user.username }}</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No pending staff registrations.</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Pending Student Approvals</h3>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Enrollment Number</th>
+                <th>Action</th>
+            </tr>
+            {% for student in pending_students %}
+            <tr>
+                <td>{{ student.user.username }}</td>
+                <td>{{ student.user.email }}</td>
+                <td>{{ student.enrollment_number }}</td>
+                <td>
+                    <form action="{% url 'approve_user' student.id 'student' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Approve Student {{ student.user.username }}</button>
+                    </form>
+                    <form action="{% url 'reject_user' student.id 'student' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Reject Student {{ student.user.username }}</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No pending student registrations.</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Add additional admin functionalities here -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+{% include 'student_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        nav a {
+            color: white;
+            margin: 10px;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .course-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .course-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .course-card p {
+            margin: 5px 0;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        .cart{
+            position: absolute;
+            left: 1450px;
+            top: 150px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Welcome to the Student Dashboard</h1>
+
+    <div class="cart">
+        <a href="{% url 'your_courses' %}"><i class="fa fa-cart-arrow-down" style="font-size:36px"></i></a>
+    </div>
+
+
+    <!-- Available Courses -->
+    <h2>Available Courses</h2>
+    {% if available_courses %}
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="course-card-container">
+            {% for course in available_courses %}
+            <div class="course-card">
+                <div>
+                    <strong>{{ course.name }}</strong>
+                    <p>{{ course.description }}</p>
+                    <p><strong>Price:</strong> ${{ course.price }}</p>
+                </div>
+                <div class="purchase-button-container">
+                    <button type="submit" name="purchase_course" value="{{ course.id }}" >Purchase</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+    {% else %}
+    <p>No courses available for purchase.</p>
+    {% endif %}
+
+    <!-- Conduct Exam -->
+    <h2>Conduct Exam</h2>
+    {% if purchased_courses %}
+    <form method="get" action="">
+        <label for="course">Course:</label>
+        <select name="course" id="course" onchange="this.form.submit()">
+            <option value="">Choose a course</option>
+            {% for course in purchased_courses %}
+            <option value="{{ course.id }}" {% if course.is_selected %}selected{% endif %}>
+                {{ course.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if subjects %}
+    <form method="get" action="">
+        <input type="hidden" name="course" value="{{ selected_course }}">
+        <label for="subject">Subject:</label>
+        <select name="subject" id="subject" onchange="this.form.submit()">
+            <option value="">Choose a subject</option>
+            {% for subject in subjects %}
+            <option value="{{ subject.id }}" {% if subject.is_selected %}selected{% endif %}>
+                {{ subject.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+    {% endif %}
+
+    {% if selected_course and selected_subject %}
+    <a href="{% url 'exam_portal' selected_course selected_subject %}" class="btn btn-primary">Start Exam</a>
+    {% endif %}
+    {% else %}
+    <p>Please purchase a course to access exams.</p>
+    {% endif %}
+
+</body>
+
+</html>

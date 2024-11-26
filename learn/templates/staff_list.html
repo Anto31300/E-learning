@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Staff Members</h1>
+
+    {% if staffs %}
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Approval Status</th>
+                <th>Assigned Course</th>
+                <th>Assigned Subjects</th>
+            </tr>
+            {% for staff in staffs %}
+                <tr>
+                    <td>{{ staff.user.username }}</td>
+                    <td>
+                        {% if staff.approved %}
+                            Approved
+                        {% else %}
+                            Pending Approval
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if staff.course %}
+                            {{ staff.course.name }}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if staff.subjects.exists %}
+                            {% for subject in staff.subjects.all %}
+                                {{ subject.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            No Subjects Assigned
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No staff members found.</p>
+    {% endif %}
+</body>
+</html>

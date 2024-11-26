@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subjects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        li {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .actions {
+            margin-top: 10px;
+        }
+        .actions a,
+        .actions input {
+            text-decoration: none;
+            color: #06BBCC;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+        .actions a:hover,
+        .actions input:hover {
+            color: #019b99;
+        }
+        .actions input {
+            background-color: #f2f2f2;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .actions a {
+            margin-right: 10px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #06BBCC;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #019b99;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Subjects</h1>
+
+        <ul>
+            {% for subject in subjects %}
+                <li>
+                    <span>{{ subject.name }}</span> - {{ subject.code }} 
+                    (Course: {{ subject.course }} / Course Name: {{ subject.course.name }})
+                </li>
+            {% empty %}
+                <li>No subjects available.</li>
+            {% endfor %}
+        </ul>
+        
+        
+
+    </div>
+</body>
+</html>

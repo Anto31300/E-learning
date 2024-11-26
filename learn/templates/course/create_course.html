@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create / Update Course</title>
+</head>
+<body>
+    <h1>{{ course.id|default:"Create Course" }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ course.name|default:'' }}" required><br>
+    
+        <label for="description">Description:</label>
+        <textarea id="description" name="description">{{ course.description|default:'' }}</textarea><br>
+    
+        <label for="code">Code:</label>
+        <input type="text" id="code" name="code" value="{{ course.code|default:'' }}" required><br>
+    
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" value="{{ course.price|default:'0.00' }}" step="0.01" required><br>
+    
+        <button type="submit">Save</button>
+    </form>    
+    <a href="{% url 'course_list' %}">Cancel</a>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% include 'staff_header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            margin: 10px;
+            text-decoration: none;
+        }
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ request.user.username }}</h2>
+        <p>As a staff member, you can manage your subjects and interact with students.</p>
+        <!-- Add additional staff functionalities here -->
+    </div>
+</body>
+</html>

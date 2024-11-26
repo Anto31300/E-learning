@@ -1,0 +1,18 @@
+<form method="POST">
+    {% csrf_token %}
+    <label>Select Course:</label>
+    <select name="course" id="course" required>
+        {% for course in courses %}
+            <option value="{{ course.id }}">{{ course.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <label>Select Subject:</label>
+    <select name="subject" id="subject" required>
+        {% for subject in course.subjects.all %}
+            <option value="{{ subject.id }}">{{ subject.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <button type="submit">Start Exam</button>
+</form>
